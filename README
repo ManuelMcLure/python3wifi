@@ -30,7 +30,6 @@ Files and Directories
 ./docs/logos/ - the Python WiFi logo in various formats
 ./examples/ - sample uses of pythonwifi module
 ./pythonwifi/ - the module source code
-./ez_setup.py - installation script
 ./INSTALL - installation instructions
 ./Makefile - convenience commands for developers
 ./README - this file

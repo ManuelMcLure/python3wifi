@@ -18,8 +18,8 @@ TOPDIR := $(CURDIR)
 
 all:	
 
-egg:	
-	python setup.py bdist_egg
+dist:
+	python setup.py sdist
 
 tarball: $(TOPDIR)/tmp/${package}-$(VERSION).tar.bz2.sign $(TOPDIR)/tmp/${package}-$(VERSION).tar.bz2.sha256
 
