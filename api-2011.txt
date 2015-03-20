@@ -1,12 +1,12 @@
 =RFC: New API to Unify WEXT (iwlibs) and nl80211 Interfaces in pythonwifi=
 
 Started: 20110317
-Rev. 20120316-01
+Rev. 20150317-01
 
 This document attempts to outline a new API for pythonwifi going forward
 from v0.5.  Everything in this Request For Comment is open for discussion
 and change.  The API described here is a starting point for such a discussion.
-That argument will take place on pythonwifi-devel@berlios.de.  If you would
+That argument will take place on pythonwifi@lists.tuxfamily.org.  If you would
 like to comment on this API, please subscribe and become involved.
 
 
@@ -15,7 +15,7 @@ like to comment on this API, please subscribe and become involved.
 If you contribute to this RFC, by adding, removing, or editing content,
 please add your name to the author list below.  Email addresses are optional.
 
-Sean Robinson <seankrobinson@gmail.com>
+Sean Robinson <robinson@tuxfamily.org>
 
 
 ==History==
@@ -70,7 +70,7 @@ The term "wireless client developers" is used to describe those programmers
 controlling the wireless hardware via requests to the driver from userspace.
 So the developers in question are requesting service from the wireless
 driver.  This term is used to more clearly distinguish the pythonwifi target
-audience from driver developers.
+audience from device/driver developers.
 
 For the definitions of technical terms as they are used in this document,
 see the glossary at the end of this document.
@@ -679,7 +679,3 @@ one (1) to thirty-two (32) octets in length.
 'Station' is a radio-containing device which is designed to communicate
 wirelessly with other stations.  Specifically, this wireless communication
 is of the format detailed by the IEEE 802.11 standards.
-
-
-
-
