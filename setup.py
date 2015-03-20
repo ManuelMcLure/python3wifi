@@ -13,7 +13,7 @@ wireless network card's capabilities using the Linux Wireless Extensions.""",
     url = "http://pythonwifi.tuxfamily.org/",
     packages = ['pythonwifi'],
 
-    data_files=[('', ['README', 'INSTALL']),
+    data_files=[('', ['README']),
                 ('examples', ['examples/iwlist.py', 'examples/iwconfig.py']),
                 ('docs', ['docs/AUTHORS', 'docs/BUGS', 'docs/LICENSE.GPL',
                           'docs/LICENSE.LGPL', 'docs/NEWS', 'docs/ROADMAP',
