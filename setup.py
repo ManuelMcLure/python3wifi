@@ -7,10 +7,10 @@ setup(
     author = "Róman Joost",
     author_email = "roman@bromeco.de",
     maintainer = "Sean Robinson",
-    maintainer_email = "pythonwifi-dev@lists.berlios.de",
+    maintainer_email = "pythonwifi@lists.tuxfamily.org",
     description = """Python WiFi is a Python module that provides read and write access to a
 wireless network card's capabilities using the Linux Wireless Extensions.""",
-    url = "http://pythonwifi.wikispot.org/",
+    url = "http://pythonwifi.tuxfamily.org/",
     packages = ['pythonwifi'],
 
     data_files=[('', ['README', 'INSTALL']),
@@ -33,7 +33,6 @@ wireless network card's capabilities using the Linux Wireless Extensions.""",
     platforms = "Linux",
     license = "LGPL for module; GPL for example apps",
     keywords = "wifi wireless wlan iwconfig iwlist iwtools",
-    download_url = "https://developer.berlios.de/project/filelist.php?group_id=7134",
     classifiers = [
         'Development Status :: 3 - Alpha',
         'Environment :: Other Environment',

@@ -6,10 +6,9 @@ wireless network card's capabilities using the Linux Wireless Extensions.
 It was initially developed by Roman Joost with advice from Guido Goldstein
 of Infrae.  It is currently maintained by Sean Robinson.
 
-More information is available at http://pythonwifi.wikispot.org and
-https://developer.berlios.de/projects/pythonwifi/  Mailing lists for
-announcements and developer discussion are available at
-https://developer.berlios.de/mail/?group_id=7134
+More information is available at http://pythonwifi.tuxfamily.org.  A
+mailing list for announcements and developer discussion is available at
+pythonwifi@lists.tuxfamily.org.
 
 Check the ./docs/feature_matrix_*.txt files for a detailed list of what is
 implemented.  This may not work with 64-bit Linux kernels, I would appreciate
