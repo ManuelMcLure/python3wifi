@@ -2,6 +2,10 @@
 Changes
 =======
 
+pythonwifi 0.5.1 release
+------------------------
+    - updates to URLs and documentation, no new features
+
 pythonwifi 0.5.0 release
 ------------------------
     - make licensing on each file more explicit
