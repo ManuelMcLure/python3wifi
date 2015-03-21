@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 
+def get_version():
+    with open("docs/VERSION") as f:
+        version = f.readline()
+    return version[:-1]
+
+
 setup(
     name = "python-wifi",
-    version = "0.5.1",
+    version = get_version(),
     author = "Róman Joost",
     author_email = "roman@bromeco.de",
     maintainer = "Sean Robinson",
