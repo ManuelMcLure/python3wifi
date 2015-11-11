@@ -2,6 +2,10 @@
 Changes
 =======
 
+pythonwifi 0.6.1 release
+------------------------
+    - fix one bug that prevented installation
+
 pythonwifi 0.6.0 release
 ------------------------
     - various improvements to WEXT modules and examples
@@ -18,7 +22,6 @@ pythonwifi 0.3.1 release
 ------------------------
     - bugfixes
     - mostly code cleanups
-
 
 pythonwifi 0.3 release
 ----------------------
