@@ -10,7 +10,7 @@ def get_version():
 setup(
     name = "python-wifi",
     version = get_version(),
-    author = "Róman Joost",
+    author = "RÃ³man Joost",
     author_email = "roman@bromeco.de",
     maintainer = "Sean Robinson",
     maintainer_email = "pythonwifi@lists.tuxfamily.org",
