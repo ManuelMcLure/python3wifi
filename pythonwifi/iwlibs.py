@@ -32,7 +32,6 @@ import time
 import re
 
 import pythonwifi.flags
-from types import StringType, IntType, TupleType
 
 
 KILO = 10**3
@@ -96,7 +95,7 @@ def getConfiguredWNICnames():
     """
     iwstruct = Iwstruct()
     ifnames = []
-    buff = array.array('c', '\0'*1024)
+    buff = array.array('B', b'\0'*1024)
     caddr_t, length = buff.buffer_info()
     datastr = iwstruct.pack('iP', length, caddr_t)
     result = iwstruct._fcntl(pythonwifi.flags.SIOCGIFCONF, datastr)
@@ -339,7 +338,7 @@ class Wireless(object):
             (1, 'Operation not permitted')
 
         """
-        if type(mode) == IntType:
+        if type(mode) == int:
             mode = mode
         else:
             mode = mode.upper()
@@ -999,7 +998,7 @@ class Iwstruct(object):
         # ioctl itself looks for the pointer to the address in our
         # memory and the size of it.
         # Don't change the order how the structure is packed!!!
-        buff = array.array('c', '\0'*buffsize)
+        buff = array.array('B', b'\0'*buffsize)
         caddr_t, length = buff.buffer_info()
         datastr = struct.pack('Pi', caddr_t, length)
         return buff, datastr
@@ -1007,7 +1006,7 @@ class Iwstruct(object):
     def pack_test(self, string, buffsize):
         """ Packs wireless request data for sending it to the kernel. """
         buffsize = buffsize - len(string)
-        buff = array.array('c', string+'\0'*buffsize)
+        buff = array.array('B', string.encode('utf-8')+b'\0'*buffsize)
         caddr_t, length = buff.buffer_info()
         s = struct.pack('PHH', caddr_t, length, 1)
         return buff, s
@@ -1022,7 +1021,7 @@ class Iwstruct(object):
     def iw_get_ext(self, ifname, request, data=None):
         """ Read information from ifname. """
         buff = pythonwifi.flags.IFNAMSIZE-len(ifname)
-        ifreq = array.array('c', ifname + '\0'*buff)
+        ifreq = array.array('B', ifname.encode('utf-8') + b'\0'*buff)
         # put some additional data behind the interface name
         if data is not None:
             ifreq.extend(data)
@@ -1083,7 +1082,7 @@ class Iwfreq(object):
         self.index = 0
         self.flags = 0
         if data:
-            if isinstance(data, TupleType):
+            if isinstance(data, tuple):
                 self.m, self.e, self.index, self.flags = data
             else:
                 self.parse(data)
@@ -1218,7 +1217,7 @@ class Iwpoint(object):
         # P pointer to data, H length, H flags
         self.fmt = 'PHH'
         self.flags = flags
-        self.buff = array.array('c', data)
+        self.buff = array.array('B', data)
         self.caddr_t, self.length = self.buff.buffer_info()
         self.packed_data = struct.pack(self.fmt, self.caddr_t,
                                        self.length, self.flags)
