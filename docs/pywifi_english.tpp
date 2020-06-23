@@ -1,4 +1,4 @@
---author Róman Joost 
+--author RÃ³man Joost 
 --title PyWifi -- a Pythonic WIFI Library 
 --date 27.12.2005
 --newpage

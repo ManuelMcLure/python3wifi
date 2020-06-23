@@ -12,9 +12,9 @@ Python Bibliothek um Hardwaredaten des Wireless Treibers auszulesen.
 --center Motivation
 externe Programme zu benutzen ist:
 ---
-* fehleranf‰llig
+* fehleranf√§llig
 ---
-* umst‰ndlich
+* umst√§ndlich
 ---
 * nicht wirklich einfach
 
@@ -24,7 +24,7 @@ externe Programme zu benutzen ist:
 --boldoff
 * suuuuper schnell ;)
 ---
-* einfach f¸r den Entwickler zu benutzen
+* einfach f√ºr den Entwickler zu benutzen
 ---
 * nur unter Linux benutzbar?
 
