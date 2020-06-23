@@ -1027,7 +1027,7 @@ class Iwstruct(object):
             ifreq.extend(data)
         else:
             # extend to 32 bytes for ioctl payload
-            ifreq.extend('\0'*16)
+            ifreq.extend(b'\0'*16)
 
         result = self._fcntl(request, ifreq)
         return (result, ifreq[pythonwifi.flags.IFNAMSIZE:])
@@ -1117,7 +1117,7 @@ class Iwstats(object):
 
     def __init__(self, ifname):
         # (2B) status, 4B iw_quality, 6i iw_discarded
-        self.fmt = "2B4B6i"
+        self.fmt = "2BBbbB6i"
         self.status = 0
         self.qual = Iwquality()
         self.discard = {}
@@ -1165,7 +1165,7 @@ class Iwquality(object):
         self.siglevel = 0
         self.nlevel = 0
         self.updated = 0
-        self.fmt = "4B"
+        self.fmt = "BbbB"
 
     def parse(self, data):
         """ Unpacks iwquality data. """
