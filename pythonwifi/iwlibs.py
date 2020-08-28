@@ -30,6 +30,7 @@ import os
 import socket
 import time
 import re
+import sys
 
 import pythonwifi.flags
 
