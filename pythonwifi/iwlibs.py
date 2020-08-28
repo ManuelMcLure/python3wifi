@@ -93,6 +93,10 @@ def getConfiguredWNICnames():
        []
 
     """
+    # Determine number of bytes in an ifreq structure
+    # This depends on whether we're on 32 or 64 bit
+    # Linux. 
+    ifreq_bytes = 40 if sys.maxsize > 2**32 else 32
     iwstruct = Iwstruct()
     ifnames = []
     buff = array.array('B', b'\0'*1000)
@@ -100,9 +104,9 @@ def getConfiguredWNICnames():
     datastr = iwstruct.pack('iP', length, caddr_t)
     result = iwstruct._fcntl(pythonwifi.flags.SIOCGIFCONF, datastr)
     # get the interface names out of the buffer
-    for i in range(0, 1000, 40):
-        ifname = buff.tostring()[i:i+40]
-        ifname = struct.unpack('40s', ifname)[0]
+    for i in range(0, 32*ifreq_bytes, ifreq_bytes):
+        ifname = buff.tostring()[i:i+ifreq_bytes]
+        ifname = struct.unpack('{}s'.format(ifreq_bytes), ifname)[0]
         ifname = ifname.split(b'\0', 1)[0].decode("utf8")
         if ifname:
             # verify if ifnames are really wifi devices
