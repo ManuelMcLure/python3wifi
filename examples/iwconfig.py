@@ -254,10 +254,11 @@ def iwconfig(interface):
         else:
             # Link Quality, Signal Level and Noise Level line
             line = "          "
-            line = line + "Link Quality:{}/{}  ".format(qual.quality,
+            line = line + "Link Quality={}/{}  ".format(qual.quality,
                     wifi.getQualityMax().quality)
-            line = line + "Signal level:{}dBm  ".format(qual.signallevel)
-            line = line + "Noise level:{}dBm".format(qual.noiselevel)
+            line = line + "Signal level={}dBm".format(qual.signallevel)
+            if qual.noiselevel != 0:
+                line = line + "  Noise level={}dBm".format(qual.noiselevel)
             print(line)
             # Rx line
             line = "          "
