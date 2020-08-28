@@ -179,7 +179,8 @@ def getPowerManagement(wifi):
 def iwconfig(interface):
     """ Get wireless information from the device driver. """
     if interface not in getWNICnames():
-        print("{:8.16}  no wireless extensions.".format(interface))
+        print("{:8.16}  no wireless extensions.".format(interface),
+                file=sys.stderr)
     else:
         wifi = Wireless(interface)
         line = """{:8.16}  {}  """.format(interface, wifi.getWirelessName())
