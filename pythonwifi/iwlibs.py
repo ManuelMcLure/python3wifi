@@ -719,7 +719,7 @@ class WirelessConfig(object):
         """
         status, result = self.iwstruct.iw_get_ext(self.ifname,
                                              pythonwifi.flags.SIOCGIWNAME)
-        return result.tostring().strip(b'\x00')
+        return result.tostring().strip(b'\x00').decode("utf8")
 
     def getEncryption(self):
         """ Returns the encryption status.
@@ -792,7 +792,7 @@ class WirelessConfig(object):
                                              pythonwifi.flags.SIOCGIWESSID,
                                              data=iwpoint.packed_data)
         raw_essid = iwpoint.buff.tostring()
-        return raw_essid.strip(b'\x00')
+        return raw_essid.strip(b'\x00').decode("utf8")
 
     def getMode(self):
         """ Returns currently set operation mode.
