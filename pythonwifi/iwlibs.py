@@ -49,7 +49,7 @@ def getNICnames():
         ['lo', 'eth0']
 
     """
-    device = re.compile('[a-z]{2,}[0-9]*:')
+    device = re.compile('[a-z]{2,}[a-z0-9]*:')
     ifnames = []
 
     fp = open('/proc/net/dev', 'r')
@@ -70,7 +70,7 @@ def getWNICnames():
         ['eth1', 'wifi0']
 
     """
-    device = re.compile('[a-z]{2,}[0-9]*:')
+    device = re.compile('[a-z]{2,}[a-z0-9]*:')
     ifnames = []
 
     fp = open('/proc/net/wireless', 'r')
@@ -81,7 +81,7 @@ def getWNICnames():
         except AttributeError:
             pass
     # if we couldn't lookup the devices, try to ask the kernel
-    if ifnames == []:
+    if not ifnames:
         ifnames = getConfiguredWNICnames()
 
     return ifnames
@@ -95,15 +95,15 @@ def getConfiguredWNICnames():
     """
     iwstruct = Iwstruct()
     ifnames = []
-    buff = array.array('B', b'\0'*1024)
+    buff = array.array('B', b'\0'*1000)
     caddr_t, length = buff.buffer_info()
     datastr = iwstruct.pack('iP', length, caddr_t)
     result = iwstruct._fcntl(pythonwifi.flags.SIOCGIFCONF, datastr)
     # get the interface names out of the buffer
-    for i in range(0, 1024, 32):
-        ifname = buff.tostring()[i:i+32]
-        ifname = struct.unpack('32s', ifname)[0]
-        ifname = ifname.split('\0', 1)[0]
+    for i in range(0, 1000, 40):
+        ifname = buff.tostring()[i:i+40]
+        ifname = struct.unpack('40s', ifname)[0]
+        ifname = ifname.split(b'\0', 1)[0].decode("utf8")
         if ifname:
             # verify if ifnames are really wifi devices
             wifi = Wireless(ifname)
@@ -112,7 +112,8 @@ def getConfiguredWNICnames():
             except IOError:
                 # don't stop on an individual error
                 pass
-            if result[0] == 0:
+            #print("{}: {}".format(ifname, result))
+            if result[0] != 0:
                 ifnames.append(ifname)
     return ifnames
 
@@ -718,7 +719,7 @@ class WirelessConfig(object):
         """
         status, result = self.iwstruct.iw_get_ext(self.ifname,
                                              pythonwifi.flags.SIOCGIWNAME)
-        return result.tostring().strip('\x00')
+        return result.tostring().strip(b'\x00')
 
     def getEncryption(self):
         """ Returns the encryption status.
@@ -731,7 +732,7 @@ class WirelessConfig(object):
         """
         # use an IW_ENCODING_TOKEN_MAX-cell array of NULLs
         #   as space for ioctl to write encryption info
-        iwpoint = Iwpoint('\x00'*pythonwifi.flags.IW_ENCODING_TOKEN_MAX)
+        iwpoint = Iwpoint(b'\x00'*pythonwifi.flags.IW_ENCODING_TOKEN_MAX)
         status, result = self.iwstruct.iw_get_ext(self.ifname,
                                              pythonwifi.flags.SIOCGIWENCODE,
                                              data=iwpoint.packed_data)
@@ -786,12 +787,12 @@ class WirelessConfig(object):
         """
         # use an IW_ESSID_MAX_SIZE-cell array of NULLs
         #   as space for ioctl to write ESSID
-        iwpoint = Iwpoint('\x00'*pythonwifi.flags.IW_ESSID_MAX_SIZE)
+        iwpoint = Iwpoint(b'\x00'*pythonwifi.flags.IW_ESSID_MAX_SIZE)
         status, result = self.iwstruct.iw_get_ext(self.ifname,
                                              pythonwifi.flags.SIOCGIWESSID,
                                              data=iwpoint.packed_data)
         raw_essid = iwpoint.buff.tostring()
-        return raw_essid.strip('\x00')
+        return raw_essid.strip(b'\x00')
 
     def getMode(self):
         """ Returns currently set operation mode.
