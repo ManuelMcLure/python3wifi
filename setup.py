@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from distutils.core import setup
 
+
 def get_version():
     with open("docs/VERSION") as f:
         version = f.readline()
@@ -8,16 +9,16 @@ def get_version():
 
 
 setup(
-    name = "python-wifi",
-    version = get_version(),
-    author = "Róman Joost",
-    author_email = "roman@bromeco.de",
-    maintainer = "Sean Robinson",
-    maintainer_email = "pythonwifi@lists.tuxfamily.org",
-    description = """Python WiFi is a Python module that provides read and write access to a
+    name="python-wifi",
+    version=get_version(),
+    author="Róman Joost",
+    author_email="roman@bromeco.de",
+    maintainer="Sean Robinson",
+    maintainer_email="pythonwifi@lists.tuxfamily.org",
+    description="""Python WiFi is a Python module that provides read and write access to a
 wireless network card's capabilities using the Linux Wireless Extensions.""",
-    url = "http://pythonwifi.tuxfamily.org/",
-    packages = ['pythonwifi'],
+    url="http://pythonwifi.tuxfamily.org/",
+    packages=['pythonwifi'],
 
     data_files=[('', ['README']),
                 ('examples', ['examples/iwlist.py', 'examples/iwconfig.py']),
@@ -34,12 +35,12 @@ wireless network card's capabilities using the Linux Wireless Extensions.""",
                                 'docs/logos/pythonwifi-logo-text.png',
                                 'docs/logos/pythonwifi-logo.karbon']),
                 ('man/man8', ['docs/iwconfig.py.8', 'docs/iwlist.py.8']),
-               ],
+                ],
 
-    platforms = "Linux",
-    license = "LGPL for module; GPL for example apps",
-    keywords = "wifi wireless wlan iwconfig iwlist iwtools",
-    classifiers = [
+    platforms="Linux",
+    license="LGPL for module; GPL for example apps",
+    keywords="wifi wireless wlan iwconfig iwlist iwtools",
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Other Environment',
         'Intended Audience :: Developers',
