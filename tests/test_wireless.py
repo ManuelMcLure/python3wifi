@@ -80,12 +80,12 @@ class TestWireless(unittest.TestCase):
         self.wifi.setEncryption('restricted')
         self.assert_(self.wifi.getEncryption() == 'restricted')
         self.assert_(self.wifi.getEncryption(symbolic=False)
-                     == IW_ENCODE_RESTRICTED+1)
+                     == IW_ENCODE_RESTRICTED + 1)
         self.wifi.setEncryption(old_enc)
 
         try:
             old_key = self.wifi.getKey()
-        except ValueError, msg:
+        except ValueError as msg:
             old_key = None
         self.wifi.setKey('ABCDEF1234', 1)
         self.assert_(self.wifi.getKey() == 'ABCD-EF12-34')
@@ -120,37 +120,44 @@ class TestWireless(unittest.TestCase):
         for m in methods:
             try:
                 result = getattr(self.wifi, m)()
-            except IOError, (error, msg):
+            except IOError as xxx_todo_changeme:
+                (error, msg) = xxx_todo_changeme.args
                 self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.getStatistics()
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme2:
+            (error, msg) = xxx_todo_changeme2.args
             self.assertEquals(error, errno.EOPNOTSUPP)
 
         try:
             result = self.wifi.setMode('Monitor')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme3:
+            (error, msg) = xxx_todo_changeme3.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setEssid('Joost')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme4:
+            (error, msg) = xxx_todo_changeme4.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setFrequency('2.462GHz')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme5:
+            (error, msg) = xxx_todo_changeme5.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setEncryption('restricted')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme6:
+            (error, msg) = xxx_todo_changeme6.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setKey('ABCDEF1234', 1)
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme7:
+            (error, msg) = xxx_todo_changeme7.args
             self.assertEquals(error, errno.EINVAL)
 
     def test_wirelessWithNonExistantCard(self):
@@ -177,32 +184,38 @@ class TestWireless(unittest.TestCase):
         for m in methods:
             try:
                 result = getattr(self.wifi, m)()
-            except IOError, (error, msg):
+            except IOError as xxx_todo_changeme1:
+                (error, msg) = xxx_todo_changeme1.args
                 self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setMode('Monitor')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme8:
+            (error, msg) = xxx_todo_changeme8.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setEssid('Joost')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme9:
+            (error, msg) = xxx_todo_changeme9.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setFrequency('2.462GHz')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme10:
+            (error, msg) = xxx_todo_changeme10.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setEncryption('restricted')
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme11:
+            (error, msg) = xxx_todo_changeme11.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setKey('ABCDEF1234', 1)
-        except IOError, (error, msg):
+        except IOError as xxx_todo_changeme12:
+            (error, msg) = xxx_todo_changeme12.args
             self.assertEquals(error, errno.ENODEV)
 
 

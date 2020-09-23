@@ -368,7 +368,7 @@ def usage():
                 interface rts {N|auto|fixed|off}
                 interface frag {N|auto|fixed|off}
                 interface modulation {11g|11a|CCK|OFDMg|...}
-                interface commit 
+                interface commit
        Check man pages for more details.""")
 
 
@@ -389,18 +389,18 @@ def get_matching_command(option):
 
     """
     # build dictionary of commands and functions
-    iwcommands = {"es": ("essid",      setEssid),
-                  "mode": ("mode",       setMode),
-                  "fre": ("freq",       setFreq),
-                  "ch": ("channel",    setFreq),
+    iwcommands = {"es": ("essid", setEssid),
+                  "mode": ("mode", setMode),
+                  "fre": ("freq", setFreq),
+                  "ch": ("channel", setFreq),
                   # "b"    : ("bit",        setBitrate),
                   # "ra"   : ("rate",       setBitrate),
-                  "en": ("enc",        setKey),
-                  "k": ("key",        setKey),
+                  "en": ("enc", setKey),
+                  "k": ("key", setKey),
                   # "p"    : ("power",      setPower),
                   # "ni"   : ("nickname",   setNickname),
                   # "nw"   : ("nwid",       setNwid),
-                  "a": ("ap",         setAP),
+                  "a": ("ap", setAP),
                   # "t"    : ("txpower",    setTxpower),
                   # "s"    : ("sens",       setSens),
                   # "re"   : ("retry",      setRetry),

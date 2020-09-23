@@ -116,7 +116,8 @@ def print_scanning_results(wifi, args=None):
                             while line < rate_lines:
                                 # print full lines
                                 if line > 0:
-                                    # non-first lines should start *very* indented
+                                    # non-first lines should start *very*
+                                    # indented
                                     rate_line = "                              "
                                 rate_line = rate_line + \
                                     "{}; {}; {}; {}; {}".format(
@@ -129,7 +130,7 @@ def print_scanning_results(wifi, args=None):
                                 rate_line = "                              "
                             # print non-full line
                             print(rate_line +
-                                  ("{}; "*(rate_remainder - 1)).format(
+                                  ("{}; " * (rate_remainder - 1)).format(
                                       *tuple(wifi._formatBitrate(x) for x in
                                              rate_list[line * 5:line * 5 +
                                                        rate_remainder - 1])) +
@@ -162,7 +163,7 @@ def print_channels(wifi, args=None):
               "available frequencies :".format(wifi.ifname, num_frequencies))
         for channel in channels:
             print("          Channel {:02d} : {}".format(
-                channels.index(channel)+1, channel))
+                channels.index(channel) + 1, channel))
         # Do some low-level comparisons on frequency info
         iwfreq = wifi.wireless_info.getFrequency()
         # XXX - this is not the same flags value as iwlist.c
@@ -447,8 +448,10 @@ def print_aps(wifi, args=None):
             results = wifi.scan()
         except IOError as io_error:
             if io_error.errno != errno.EPERM:
-                sys.stderr.write("{:8.16}  Interface doesn't support "
-                                 "scanning : {}\n\n".format(wifi.ifname, io_error.strerror))
+                sys.stderr.write(
+                    "{:8.16}  Interface doesn't support "
+                    "scanning : {}\n\n".format(
+                        wifi.ifname, io_error.strerror))
         else:
             if (len(results) == 0):
                 print("{:8.16}  Interface doesn't have ".format(wifi.ifname)
