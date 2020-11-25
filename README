@@ -1,5 +1,9 @@
 README
 ======
+python3wifi is a fork of the original pythonwifi (http://pythonwifi.tuxfamily.org) updated to run under Python 3.
+
+ORIGINAL README
+===============
 
 Python WiFi is a Python module that provides read and write access to a
 wireless network card's capabilities using the Linux Wireless Extensions.
