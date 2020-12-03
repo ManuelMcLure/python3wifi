@@ -32,7 +32,7 @@ import time
 import re
 import sys
 
-import pythonwifi.flags
+import python3wifi.flags
 
 
 KILO = 10**3

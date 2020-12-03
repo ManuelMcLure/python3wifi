@@ -23,8 +23,8 @@ import getopt
 import sys
 import types
 
-import pythonwifi.flags
-from pythonwifi.iwlibs import Wireless, WirelessInfo, Iwrange, getNICnames, getWNICnames
+import python3wifi.flags
+from python3wifi.iwlibs import Wireless, WirelessInfo, Iwrange, getNICnames, getWNICnames
 
 
 def getBitrate(wifi):

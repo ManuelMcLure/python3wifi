@@ -9,16 +9,14 @@ def get_version():
 
 
 setup(
-    name="python-wifi",
+    name="python3-wifi",
     version=get_version(),
-    author="Róman Joost",
-    author_email="roman@bromeco.de",
-    maintainer="Sean Robinson",
-    maintainer_email="pythonwifi@lists.tuxfamily.org",
-    description="""Python WiFi is a Python module that provides read and write access to a
+    author="Manuel McLure",
+    author_email="manuel@mclure.org",
+    description="""Python3 WiFi is a Python 3 compatible fork of Python WiFi, a Python module that provides read and write access to a
 wireless network card's capabilities using the Linux Wireless Extensions.""",
-    url="http://pythonwifi.tuxfamily.org/",
-    packages=['pythonwifi'],
+    url="https://github.com/ManuelMcLure/python3wifi",
+    packages=['python3wifi'],
 
     data_files=[('', ['README']),
                 ('examples', ['examples/iwlist.py', 'examples/iwconfig.py']),
