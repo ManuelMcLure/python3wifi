@@ -79,16 +79,16 @@ def getRetrylimit(wifi):
         return None
     else:
         modifier = ""
-        if (retry.flags & pythonwifi.flags.IW_RETRY_MIN):
+        if (retry.flags & python3wifi.flags.IW_RETRY_MIN):
             modifier = " min"
-        elif (retry.flags & pythonwifi.flags.IW_RETRY_MAX):
+        elif (retry.flags & python3wifi.flags.IW_RETRY_MAX):
             modifier = " max"
-        elif (retry.flags & pythonwifi.flags.IW_RETRY_SHORT):
+        elif (retry.flags & python3wifi.flags.IW_RETRY_SHORT):
             modifier = " short"
-        elif (retry.flags & pythonwifi.flags.IW_RETRY_LONG):
+        elif (retry.flags & python3wifi.flags.IW_RETRY_LONG):
             modifier = "  long"
         type = " limit"
-        if (retry.flags & pythonwifi.flags.IW_RETRY_LIFETIME):
+        if (retry.flags & python3wifi.flags.IW_RETRY_LIFETIME):
             type = " lifetime"
         return "Retry{}{}:{}   ".format(modifier, type, wifi.getRetrylimit())
 
@@ -133,17 +133,17 @@ def getEncryption(wifi):
 
     """
     enc = wifi.wireless_info.getEncryption()
-    if (enc.flags & pythonwifi.flags.IW_ENCODE_DISABLED):
+    if (enc.flags & python3wifi.flags.IW_ENCODE_DISABLED):
         key = "Encryption key:off"
     else:
         key = "Encryption key:%s" % (wifi.getKey(), )
-    if ((enc.flags & pythonwifi.flags.IW_ENCODE_INDEX) > 1):
-        index = " [%d]" % (enc.flags & pythonwifi.flags.IW_ENCODE_INDEX, )
+    if ((enc.flags & python3wifi.flags.IW_ENCODE_INDEX) > 1):
+        index = " [%d]" % (enc.flags & python3wifi.flags.IW_ENCODE_INDEX, )
     else:
         index = ""
-    if ((enc.flags & pythonwifi.flags.IW_ENCODE_RESTRICTED) > 0):
+    if ((enc.flags & python3wifi.flags.IW_ENCODE_RESTRICTED) > 0):
         mode = "   Security mode:restricted"
-    elif ((enc.flags & pythonwifi.flags.IW_ENCODE_OPEN) > 0):
+    elif ((enc.flags & python3wifi.flags.IW_ENCODE_OPEN) > 0):
         mode = "   Security mode:open"
     else:
         mode = ""
@@ -158,29 +158,29 @@ def getPowerManagement(wifi):
         status = ":off"
     else:
         if (power.flags & IW_POWER_TYPE):
-            if (power.flags & pythonwifi.flags.IW_POWER_MIN):
+            if (power.flags & python3wifi.flags.IW_POWER_MIN):
                 status = status + " min"
-            if (power.flags & pythonwifi.flags.IW_POWER_MAX):
+            if (power.flags & python3wifi.flags.IW_POWER_MAX):
                 status = status + " max"
-            if (power.flags & pythonwifi.flags.IW_POWER_TIMEOUT):
+            if (power.flags & python3wifi.flags.IW_POWER_TIMEOUT):
                 status = status + " timeout:"
             else:
-                if (power.flags & pythonwifi.flags.IW_POWER_SAVING):
+                if (power.flags & python3wifi.flags.IW_POWER_SAVING):
                     status = status + " saving:"
                 else:
                     status = status + " period:"
-        pm_mode_mask = power.flags & pythonwifi.flags.IW_POWER_MODE
-        if (pm_mode_mask == pythonwifi.flags.IW_POWER_UNICAST_R):
+        pm_mode_mask = power.flags & python3wifi.flags.IW_POWER_MODE
+        if (pm_mode_mask == python3wifi.flags.IW_POWER_UNICAST_R):
             status = status + "mode:Receive Unicast only received"
-        elif (pm_mode_mask == pythonwifi.flags.IW_POWER_MULTICAST_R):
+        elif (pm_mode_mask == python3wifi.flags.IW_POWER_MULTICAST_R):
             status = status + "mode:Receive Multicast only received"
-        elif (pm_mode_mask == pythonwifi.flags.IW_POWER_ALL_R):
+        elif (pm_mode_mask == python3wifi.flags.IW_POWER_ALL_R):
             status = status + "mode:All packets received"
-        elif (pm_mode_mask == pythonwifi.flags.IW_POWER_FORCE_S):
+        elif (pm_mode_mask == python3wifi.flags.IW_POWER_FORCE_S):
             status = status + "mode:Force sending"
-        elif (pm_mode_mask == pythonwifi.flags.IW_POWER_REPEATER):
+        elif (pm_mode_mask == python3wifi.flags.IW_POWER_REPEATER):
             status = status + "mode:Repeat multicasts"
-        if (power.flags & pythonwifi.flags.IW_POWER_ON):
+        if (power.flags & python3wifi.flags.IW_POWER_ON):
             status = status + ":on"
     return "Power Management{}".format(status)
 
@@ -207,7 +207,7 @@ def iwconfig(interface):
             # Some drivers do not return frequency info if not associated
             pass
 
-        if (wifi.wireless_info.getMode() == pythonwifi.flags.IW_MODE_ADHOC):
+        if (wifi.wireless_info.getMode() == python3wifi.flags.IW_MODE_ADHOC):
             ap_type = "Cell"
         else:
             ap_type = "Access Point"
@@ -294,9 +294,9 @@ def setEssid(wifi, essid):
         wifi.setEssid(essid)
     except OverflowError:
         print("Error for wireless request \"Set ESSID\" ({:X}) :".format(
-            pythonwifi.flags.SIOCSIWESSID))
+            python3wifi.flags.SIOCSIWESSID))
         print("    argument too big (max {})".format(
-            pythonwifi.flags.IW_ESSID_MAX_SIZE))
+            python3wifi.flags.IW_ESSID_MAX_SIZE))
     except Exception as unexpected:
         # Unexpected errors
         print(unexpected)
@@ -308,11 +308,11 @@ def setMode(wifi, mode):
         wifi.setMode(mode)
     except ValueError:
         print("Error for wireless request \"Set Mode\" ({:X}) :".format(
-            pythonwifi.flags.SIOCSIWMODE))
+            python3wifi.flags.SIOCSIWMODE))
         print("    invalid argument \"{}\".".format(mode))
     except IOError as io_error:
         print("Error for wireless request \"Set Mode\" ({:X}) :".format(
-            pythonwifi.flags.SIOCSIWMODE))
+            python3wifi.flags.SIOCSIWMODE))
         print("    SET failed on device %s ; %s.".format(wifi.ifname,
                                                          io_error.strerror))
     except Exception as unexpected:
