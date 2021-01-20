@@ -64,8 +64,8 @@ def getNICnames():
 
 
 def getWNICnames():
-    """ Extract wireless device names from /proc/net/wireless.
-
+    """ Determine which interfaces in /proc/net/dev are wireless
+        /proc/net/wireless is no longer usable for this purpose
         Returns empty list if no devices are present.
 
         >>> getWNICnames()
@@ -75,11 +75,19 @@ def getWNICnames():
     device = re.compile('[a-z]{2,}[a-z0-9]*:')
     ifnames = []
 
-    fp = open('/proc/net/wireless', 'r')
+    fp = open('/proc/net/dev', 'r')
     for line in fp:
         try:
             # append matching pattern, without the trailing colon
-            ifnames.append(device.search(line).group()[:-1])
+            ifname = device.search(line).group()[:-1]
+            try:
+                # Check to see if there are wireless extensions
+                wifi = Wireless(ifname)
+                name = wifi.getWirelessName()
+            except OSError:
+                pass
+            else:
+                ifnames.append(ifname)
         except AttributeError:
             pass
     # if we couldn't lookup the devices, try to ask the kernel
@@ -107,7 +115,7 @@ def getConfiguredWNICnames():
     datastr = iwstruct.pack('iP', length, caddr_t)
     result = iwstruct._fcntl(wififlags.SIOCGIFCONF, datastr)
     # get the interface names out of the buffer
-    for i in range(0, 32 * ifreq_bytes, ifreq_bytes):
+    for i in range(0, 1000 - ifreq_bytes, ifreq_bytes):
         ifname = buff.tostring()[i:i + ifreq_bytes]
         ifname = struct.unpack('{}s'.format(ifreq_bytes), ifname)[0]
         ifname = ifname.split(b'\0', 1)[0].decode("utf8")
@@ -1412,7 +1420,7 @@ class Iwscan(object):
     def __len__(self):
         return len(self.aplist)
 
-    def next(self):
+    def __next__(self):
         self.index = self.index + 1
         if self.index > len(self.aplist) - 1:
             raise StopIteration
@@ -1546,7 +1554,7 @@ class Iwscanresult(object):
                 self.essid = data[4:]
             elif cmd == wififlags.SIOCGIWENCODE:
                 data = struct.unpack("B" * len(data), data)
-                self.encode = Iwpoint("")
+                self.encode = Iwpoint([])
                 self.encode.update(struct.pack(
                     'PHH', (int(data[0]) << 16) + int(data[1]), data[2] << 8, data[3] << 8))
                 if (self.encode.caddr_t is None):

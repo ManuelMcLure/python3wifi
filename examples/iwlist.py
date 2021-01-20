@@ -52,6 +52,7 @@ def print_scanning_results(wifi, args=None):
             if (len(results) == 0):
                 print("{:8.16}  No scan results".format(wifi.ifname))
             else:
+                print("{} results".format(len(results)))
                 (num_channels, frequencies) = wifi.getChannelInfo()
                 print("{:8.16}  Scan completed :".format(wifi.ifname))
                 index = 1
@@ -82,17 +83,21 @@ def print_scanning_results(wifi, args=None):
                     else:
                         noise_updated = ":"
                     print("                    "
-                          "Quality{}{}/{}  Signal level{}{}/{}  "
-                          "Noise level{}{}/{}".format(
-                              (quality_updated,
+                          "Quality{}{}/{}  Signal level{}{}/{}  ".format(
+                               quality_updated,
                                ap.quality.quality,
                                wifi.getQualityMax().quality,
                                signal_updated,
                                ap.quality.getSignallevel(),
-                               "100",
+                               "100"))
+                    try:
+                        print("                    "
+                          "Noise level{}{}/{}".format(
                                noise_updated,
                                ap.quality.getNoiselevel(),
-                               "100")))
+                               "100"))
+                    except:
+                        pass
                     # This code on encryption keys is very fragile
                     if bool(ap.encode.flags
                             & python3wifi.flags.IW_ENCODE_DISABLED):

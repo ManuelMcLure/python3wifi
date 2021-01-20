@@ -157,7 +157,7 @@ def getPowerManagement(wifi):
     if (power.disabled):
         status = ":off"
     else:
-        if (power.flags & IW_POWER_TYPE):
+        if (power.flags & python3wifi.flags.IW_POWER_TYPE):
             if (power.flags & python3wifi.flags.IW_POWER_MIN):
                 status = status + " min"
             if (power.flags & python3wifi.flags.IW_POWER_MAX):
