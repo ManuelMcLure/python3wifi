@@ -114,6 +114,10 @@ def print_scanning_results(wifi, args=None):
                                 key_status = "on"
                     print("                    "
                           "Encryption key:{}".format(key_status))
+                    if ap.wpa is not None:
+                        print("                    "
+                              "WPA{}".format(ap.wpa))
+
                     if len(ap.rate) > 0:
                         for rate_list in ap.rate:
                             # calc how many full lines of bitrates

@@ -1576,7 +1576,21 @@ class Iwscanresult(object):
             elif cmd == wififlags.IWEVQUAL:
                 self.quality.parse(data)
             elif cmd == wififlags.IWEVGENIE:
-                pass
+                wpa1_oui = b"\x00\x50\xf2"
+                offset = 4  # skip the request code
+                while offset < len(data) - 2:
+                    ielen = data[offset + 1]
+                    if data[offset] == 0x30 and ielen > 4:
+                        self.wpa = 2
+                        break
+                    elif (
+                        data[offset] == 0xDD
+                        and ielen > 8
+                        and data[offset + 2 : offset + 5] == wpa1_oui
+                    ):
+                        self.wpa = 1
+                        break
+                    offset = offset + ielen + 2
             elif cmd == wififlags.IWEVCUSTOM:
                 self.custom.append(data[1:])
             else:
