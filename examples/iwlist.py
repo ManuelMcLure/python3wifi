@@ -61,12 +61,17 @@ def print_scanning_results(wifi, args=None):
                                                                        ap.bssid))
                     print("                    ESSID:\"{}\"".format(ap.essid))
                     print("                    Mode:{}".format(ap.mode))
+                    try:
+                        channel = "{}".format(frequencies.index(
+                            wifi._formatFrequency(
+                            ap.frequency.getFrequency())) + 1)
+                    except ValueError:
+                        channel = "?"
                     print("                    "
                           "Frequency:{} (Channel {})".format(
                               wifi._formatFrequency(
                                   ap.frequency.getFrequency()),
-                              frequencies.index(wifi._formatFrequency(
-                                  ap.frequency.getFrequency())) + 1))
+                                  channel))
                     if bool(ap.quality.updated
                             & python3wifi.flags.IW_QUAL_QUAL_UPDATED):
                         quality_updated = "="
@@ -112,7 +117,7 @@ def print_scanning_results(wifi, args=None):
                     if len(ap.rate) > 0:
                         for rate_list in ap.rate:
                             # calc how many full lines of bitrates
-                            rate_lines = len(rate_list) / 5
+                            rate_lines = len(rate_list) // 5
                             # calc how many bitrates on last line
                             rate_remainder = len(rate_list) % 5
                             line = 0
