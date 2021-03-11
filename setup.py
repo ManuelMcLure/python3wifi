@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from distutils.core import setup
 
 
@@ -64,4 +63,5 @@ wireless network card's capabilities using the Linux Wireless Extensions.""",
         "Programming Language :: Python",
         "Topic :: System :: Networking",
     ],
+    python_requires=">=3.7,<4.0",
 )

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # Copyright 2004, 2005 Róman Joost <roman@bromeco.de> - Rotterdam, Netherlands
 # Copyright 2009 by Sean Robinson <seankrobinson@gmail.com>
 #
@@ -37,35 +36,35 @@ def getBitrate(wifi):
     """ Return formatted string with Bit Rate info. """
     try:
         bitrate = wifi.wireless_info.getBitrate()
-    except IOError:
+    except OSError:
         return None
     else:
         if bitrate.fixed:
             fixed = "="
         else:
             fixed = ":"
-        return "Bit Rate{}{}   ".format(fixed, wifi.getBitrate())
+        return f"Bit Rate{fixed}{wifi.getBitrate()}   "
 
 
 def getTXPower(wifi):
     """ Return formatted string with TXPower info. """
     try:
         txpower = wifi.wireless_info.getTXPower()
-    except IOError:
+    except OSError:
         return None
     else:
         if txpower.fixed:
             fixed = "="
         else:
             fixed = ":"
-        return "Tx-Power{}{}   ".format(fixed, wifi.getTXPower())
+        return f"Tx-Power{fixed}{wifi.getTXPower()}   "
 
 
 def getSensitivity(wifi):
     """ Return formatted string with Sensitivity info. """
     try:
         sensitivity = wifi.wireless_info.getSensitivity()
-    except IOError:
+    except OSError:
         return None
     else:
         if sensitivity.fixed:
@@ -82,7 +81,7 @@ def getRetrylimit(wifi):
     """ Return formatted string with Retry info. """
     try:
         retry = wifi.wireless_info.getRetry()
-    except IOError:
+    except OSError:
         return None
     else:
         modifier = ""
@@ -97,14 +96,14 @@ def getRetrylimit(wifi):
         type = " limit"
         if retry.flags & python3wifi.flags.IW_RETRY_LIFETIME:
             type = " lifetime"
-        return "Retry{}{}:{}   ".format(modifier, type, wifi.getRetrylimit())
+        return f"Retry{modifier}{type}:{wifi.getRetrylimit()}   "
 
 
 def getRTS(wifi):
     """ Return formatted string with RTS info. """
     try:
         rts = wifi.wireless_info.getRTS()
-    except IOError:
+    except OSError:
         return None
     else:
         if rts.disabled:
@@ -113,14 +112,14 @@ def getRTS(wifi):
             fixed = "="
         else:
             fixed = ":"
-        return "RTS thr{}{} B   ".format(fixed, wifi.getRTS())
+        return f"RTS thr{fixed}{wifi.getRTS()} B   "
 
 
 def getFragmentation(wifi):
     """ Return formatted string with Fragmentation info. """
     try:
         frag = wifi.wireless_info.getFragmentation()
-    except IOError:
+    except OSError:
         return None
     else:
         if frag.disabled:
@@ -129,7 +128,7 @@ def getFragmentation(wifi):
             fixed = "="
         else:
             fixed = ":"
-        return "Fragment thr{}{} B   ".format(fixed, wifi.getFragmentation())
+        return f"Fragment thr{fixed}{wifi.getFragmentation()} B   "
 
 
 def getEncryption(wifi):
@@ -143,7 +142,7 @@ def getEncryption(wifi):
     if enc.flags & python3wifi.flags.IW_ENCODE_DISABLED:
         key = "Encryption key:off"
     else:
-        key = "Encryption key:%s" % (wifi.getKey(),)
+        key = f"Encryption key:{wifi.getKey()}"
     if (enc.flags & python3wifi.flags.IW_ENCODE_INDEX) > 1:
         index = " [%d]" % (enc.flags & python3wifi.flags.IW_ENCODE_INDEX,)
     else:
@@ -154,7 +153,7 @@ def getEncryption(wifi):
         mode = "   Security mode:open"
     else:
         mode = ""
-    return "{}{}{}".format(key, index, mode)
+    return f"{key}{index}{mode}"
 
 
 def getPowerManagement(wifi):
@@ -189,18 +188,18 @@ def getPowerManagement(wifi):
             status = status + "mode:Repeat multicasts"
         if power.flags & python3wifi.flags.IW_POWER_ON:
             status = status + ":on"
-    return "Power Management{}".format(status)
+    return f"Power Management{status}"
 
 
 def iwconfig(interface):
     """ Get wireless information from the device driver. """
     if interface not in getWNICnames():
-        print("{:8.16}  no wireless extensions.".format(interface), file=sys.stderr)
+        print(f"{interface:8.16}  no wireless extensions.", file=sys.stderr)
     else:
         wifi = Wireless(interface)
-        line = """{:8.16}  {}  """.format(interface, wifi.getWirelessName())
+        line = f"""{interface:8.16}  {wifi.getWirelessName()}  """
         if wifi.getEssid():
-            line = line + """ESSID:"{}"  \n          """.format(wifi.getEssid())
+            line = line + f"""ESSID:"{wifi.getEssid()}"  \n          """
         else:
             line = line + "ESSID:off/any  \n          "
 
@@ -208,7 +207,7 @@ def iwconfig(interface):
         line = line + "Mode:" + wifi.getMode()
         try:
             line = line + "  Frequency:" + wifi.getFrequency()
-        except IOError:
+        except OSError:
             # Some drivers do not return frequency info if not associated
             pass
 
@@ -252,7 +251,7 @@ def iwconfig(interface):
         line = "          "
         try:
             line = line + getEncryption(wifi)
-        except IOError:
+        except OSError:
             pass
         else:
             print(line)
@@ -264,7 +263,7 @@ def iwconfig(interface):
 
         try:
             stat, qual, discard, missed_beacon = wifi.getStatistics()
-        except IOError:
+        except OSError:
             # Some drivers do not return statistics info if not associated
             pass
         else:
@@ -273,9 +272,9 @@ def iwconfig(interface):
             line = line + "Link Quality={}/{}  ".format(
                 qual.quality, wifi.getQualityMax().quality
             )
-            line = line + "Signal level={}dBm".format(qual.signallevel)
+            line = line + f"Signal level={qual.signallevel}dBm"
             if qual.noiselevel != 0:
-                line = line + "  Noise level={}dBm".format(qual.noiselevel)
+                line = line + f"  Noise level={qual.noiselevel}dBm"
             print(line)
             # Rx line
             line = "          "
@@ -287,7 +286,7 @@ def iwconfig(interface):
             line = "          "
             line = line + "Tx excessive retries:{}  ".format(discard["retries"])
             line = line + "Invalid misc:{}   ".format(discard["misc"])
-            line = line + "Missed beacon:{}".format(missed_beacon)
+            line = line + f"Missed beacon:{missed_beacon}"
             print(line)
 
     print()
@@ -304,7 +303,7 @@ def setEssid(wifi, essid):
             )
         )
         print(
-            "    argument too big (max {})".format(python3wifi.flags.IW_ESSID_MAX_SIZE)
+            f"    argument too big (max {python3wifi.flags.IW_ESSID_MAX_SIZE})"
         )
     except Exception as unexpected:
         # Unexpected errors
@@ -321,15 +320,15 @@ def setMode(wifi, mode):
                 python3wifi.flags.SIOCSIWMODE
             )
         )
-        print('    invalid argument "{}".'.format(mode))
-    except IOError as io_error:
+        print(f'    invalid argument "{mode}".')
+    except OSError as io_error:
         print(
             'Error for wireless request "Set Mode" ({:X}) :'.format(
                 python3wifi.flags.SIOCSIWMODE
             )
         )
         print(
-            "    SET failed on device %s ; %s.".format(wifi.ifname, io_error.strerror)
+            f"    SET failed on device %s ; %s."
         )
     except Exception as unexpected:
         # Unexpected errors

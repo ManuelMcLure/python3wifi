@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Python WiFi -- a library to access wireless card properties via Python
 # Copyright (C) 2004 - 2008 Róman Joost
 # Copyright (C) 2008 - 2009 Sean Robinson
@@ -53,7 +52,7 @@ def getNICnames():
     device = re.compile("[a-z]{2,}[a-z0-9]*:")
     ifnames = []
 
-    fp = open("/proc/net/dev", "r")
+    fp = open("/proc/net/dev")
     for line in fp:
         try:
             # append matching pattern, without the trailing colon
@@ -75,7 +74,7 @@ def getWNICnames():
     device = re.compile("[a-z]{2,}[a-z0-9]*:")
     ifnames = []
 
-    fp = open("/proc/net/dev", "r")
+    fp = open("/proc/net/dev")
     for line in fp:
         try:
             # append matching pattern, without the trailing colon
@@ -117,14 +116,14 @@ def getConfiguredWNICnames():
     # get the interface names out of the buffer
     for i in range(0, 1000 - ifreq_bytes, ifreq_bytes):
         ifname = buff.tostring()[i : i + ifreq_bytes]
-        ifname = struct.unpack("{}s".format(ifreq_bytes), ifname)[0]
+        ifname = struct.unpack(f"{ifreq_bytes}s", ifname)[0]
         ifname = ifname.split(b"\0", 1)[0].decode("utf8")
         if ifname:
             # verify if ifnames are really wifi devices
             wifi = Wireless(ifname)
             try:
                 result = wifi.getAPaddr()
-            except IOError:
+            except OSError:
                 # don't stop on an individual error
                 pass
             # print("{}: {}".format(ifname, result))
@@ -142,7 +141,7 @@ def hex2int(hexstring):
     return int(hexstring, 16)
 
 
-class Wireless(object):
+class Wireless:
     """Provides high-level access to wireless interfaces.
 
     This class uses WirelessInfo for most access.
@@ -195,7 +194,7 @@ class Wireless(object):
         else:
             if ":" not in addr:
                 # not a hardware address
-                raise IOError(errno.ENOSYS, os.strerror(errno.ENOSYS))
+                raise OSError(errno.ENOSYS, os.strerror(errno.ENOSYS))
             mac_addr = "%c%c%c%c%c%c" % tuple(map(hex2int, addr.split(":")))
 
         iwreq = self.iwstruct.pack("H14s", 1, mac_addr)
@@ -501,7 +500,7 @@ class Wireless(object):
         else:
             if freq == "fixed":
                 freq = self.getFrequency()
-            freq_pattern = re.compile("([\d\.]+)\s?([GMk])\w?", re.I | re.M | re.S)
+            freq_pattern = re.compile(r"([\d\.]+)\s?([GMk])\w?", re.I | re.M | re.S)
             freq_match = freq_pattern.search(freq)
             if freq_match is None:
                 # match failed, try to just find a number (no units)
@@ -710,7 +709,7 @@ class Wireless(object):
         return (status, result)
 
 
-class WirelessConfig(object):
+class WirelessConfig:
     """Low level access to wireless information on a device.  This class
     contains only those things absolutely needed to configure a card.
 
@@ -982,7 +981,7 @@ class WirelessInfo(WirelessConfig):
         return Iwparam(self.ifname, wififlags.SIOCGIWRETRY)
 
 
-class Iwstruct(object):
+class Iwstruct:
     """ The basic class to handle iwstruct data. """
 
     def __init__(self):
@@ -1059,7 +1058,7 @@ class Iwstruct(object):
     # return "%02X:%02X:%02X:%02X:%02X:%02X" % mac_addr
 
 
-class Iwparam(object):
+class Iwparam:
     """ Class to hold iwparam data. """
 
     def __init__(self, ifname, ioctl):
@@ -1090,7 +1089,7 @@ class Iwparam(object):
         )
 
 
-class Iwfreq(object):
+class Iwfreq:
     """ Class to hold iwfreq data. """
 
     def __init__(self, data=None):
@@ -1131,7 +1130,7 @@ class Iwfreq(object):
         self.m = value / 10 ** self.e
 
 
-class Iwstats(object):
+class Iwstats:
     """ Class to hold iwstat data. """
 
     def __init__(self, ifname):
@@ -1179,7 +1178,7 @@ class Iwstats(object):
         )
 
 
-class Iwquality(object):
+class Iwquality:
     """ Class to hold iwquality data. """
 
     def __init__(self):
@@ -1232,7 +1231,7 @@ class Iwquality(object):
     noiselevel = property(getNoiselevel, setNoiselevel)
 
 
-class Iwpoint(object):
+class Iwpoint:
     """ Class to hold iw_point data. """
 
     def __init__(self, data=None, flags=0):
@@ -1253,7 +1252,7 @@ class Iwpoint(object):
         )
 
 
-class Iwrange(object):
+class Iwrange:
     """ Holds iwrange struct. """
 
     def __init__(self, ifname):
@@ -1397,7 +1396,7 @@ class Iwrange(object):
         self.bitrate_capa = result[229]
 
 
-class Iwscan(object):
+class Iwscan:
     """ Class to handle AP scanning. """
 
     def __init__(self, ifname, fullscan=True):
@@ -1447,7 +1446,7 @@ class Iwscan(object):
                 status, result = iwstruct.iw_get_ext(
                     self.ifname, wififlags.SIOCGIWSCAN, data=datastr
                 )
-            except IOError as io_error:
+            except OSError as io_error:
                 if io_error.errno == errno.E2BIG:
                     # Keep resizing the buffer until it's
                     #   large enough to hold the scan
@@ -1515,7 +1514,7 @@ class Iwscan(object):
         return aplist
 
 
-class Iwscanresult(object):
+class Iwscanresult:
     """An object to contain all the events associated with a single
     scanned AP.
 

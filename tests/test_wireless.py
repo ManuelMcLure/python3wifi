@@ -126,43 +126,43 @@ class TestWireless(unittest.TestCase):
         for m in methods:
             try:
                 result = getattr(self.wifi, m)()
-            except IOError as xxx_todo_changeme:
+            except OSError as xxx_todo_changeme:
                 (error, msg) = xxx_todo_changeme.args
                 self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.getStatistics()
-        except IOError as xxx_todo_changeme2:
+        except OSError as xxx_todo_changeme2:
             (error, msg) = xxx_todo_changeme2.args
             self.assertEquals(error, errno.EOPNOTSUPP)
 
         try:
             result = self.wifi.setMode("Monitor")
-        except IOError as xxx_todo_changeme3:
+        except OSError as xxx_todo_changeme3:
             (error, msg) = xxx_todo_changeme3.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setEssid("Joost")
-        except IOError as xxx_todo_changeme4:
+        except OSError as xxx_todo_changeme4:
             (error, msg) = xxx_todo_changeme4.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setFrequency("2.462GHz")
-        except IOError as xxx_todo_changeme5:
+        except OSError as xxx_todo_changeme5:
             (error, msg) = xxx_todo_changeme5.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setEncryption("restricted")
-        except IOError as xxx_todo_changeme6:
+        except OSError as xxx_todo_changeme6:
             (error, msg) = xxx_todo_changeme6.args
             self.assertEquals(error, errno.EINVAL)
 
         try:
             result = self.wifi.setKey("ABCDEF1234", 1)
-        except IOError as xxx_todo_changeme7:
+        except OSError as xxx_todo_changeme7:
             (error, msg) = xxx_todo_changeme7.args
             self.assertEquals(error, errno.EINVAL)
 
@@ -192,37 +192,37 @@ class TestWireless(unittest.TestCase):
         for m in methods:
             try:
                 result = getattr(self.wifi, m)()
-            except IOError as xxx_todo_changeme1:
+            except OSError as xxx_todo_changeme1:
                 (error, msg) = xxx_todo_changeme1.args
                 self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setMode("Monitor")
-        except IOError as xxx_todo_changeme8:
+        except OSError as xxx_todo_changeme8:
             (error, msg) = xxx_todo_changeme8.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setEssid("Joost")
-        except IOError as xxx_todo_changeme9:
+        except OSError as xxx_todo_changeme9:
             (error, msg) = xxx_todo_changeme9.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setFrequency("2.462GHz")
-        except IOError as xxx_todo_changeme10:
+        except OSError as xxx_todo_changeme10:
             (error, msg) = xxx_todo_changeme10.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setEncryption("restricted")
-        except IOError as xxx_todo_changeme11:
+        except OSError as xxx_todo_changeme11:
             (error, msg) = xxx_todo_changeme11.args
             self.assertEquals(error, errno.ENODEV)
 
         try:
             result = self.wifi.setKey("ABCDEF1234", 1)
-        except IOError as xxx_todo_changeme12:
+        except OSError as xxx_todo_changeme12:
             (error, msg) = xxx_todo_changeme12.args
             self.assertEquals(error, errno.ENODEV)
 
