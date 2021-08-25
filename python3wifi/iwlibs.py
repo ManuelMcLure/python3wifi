@@ -115,7 +115,7 @@ def getConfiguredWNICnames():
     result = iwstruct._fcntl(wififlags.SIOCGIFCONF, datastr)
     # get the interface names out of the buffer
     for i in range(0, 1000 - ifreq_bytes, ifreq_bytes):
-        ifname = buff.tostring()[i : i + ifreq_bytes]
+        ifname = buff.tobytes()[i : i + ifreq_bytes]
         ifname = struct.unpack(f"{ifreq_bytes}s", ifname)[0]
         ifname = ifname.split(b"\0", 1)[0].decode("utf8")
         if ifname:
@@ -736,7 +736,7 @@ class WirelessConfig:
 
         """
         status, result = self.iwstruct.iw_get_ext(self.ifname, wififlags.SIOCGIWNAME)
-        return result.tostring().strip(b"\x00").decode("utf8")
+        return result.tobytes().strip(b"\x00").decode("utf8")
 
     def getEncryption(self):
         """Returns the encryption status.
@@ -807,7 +807,7 @@ class WirelessConfig:
         status, result = self.iwstruct.iw_get_ext(
             self.ifname, wififlags.SIOCGIWESSID, data=iwpoint.packed_data
         )
-        raw_essid = iwpoint.buff.tostring()
+        raw_essid = iwpoint.buff.tobytes()
         return raw_essid.strip(b"\x00").decode("utf8")
 
     def getMode(self):
@@ -1156,7 +1156,7 @@ class Iwstats:
         if i > 0:
             self.error = result
             self.errorflag = i
-        self._parse(buff.tostring())
+        self._parse(buff.tobytes())
 
     def _parse(self, data):
         """ Unpacks iwstruct data. """
@@ -1341,7 +1341,7 @@ class Iwrange:
         status, result = iwstruct.iw_get_ext(
             self.ifname, wififlags.SIOCGIWRANGE, data=s
         )
-        data = buff.tostring()
+        data = buff.tobytes()
         self._parse(data)
 
     def _parse(self, data):
@@ -1472,7 +1472,7 @@ class Iwscan:
         pbuff, reslen = iwstruct.unpack("Pi", datastr)
         if reslen > 0:
             # Initialize the stream, and turn it into an enumerator
-            self.aplist = self._parse(buff.tostring())
+            self.aplist = self._parse(buff.tobytes())
 
     def _parse(self, data):
         """Parse the event stream, and return a list of Iwscanresult
